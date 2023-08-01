@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { StyledFormBox, StyledAuthPageBox } from '../page.styled';
 import Loader from '../../utils/loader.styled';
 import { ROUTER_KEYS } from '../../consts/app-keys.const';
-import useMetaMaskConnect from '../../../hooks/useMetaMaskConnect';
+import { useMetaMask } from '../../../hooks/useMetaMaskConnect';
+import { BaseModal } from '../../components/modal';
 
 export const ConnectMetaMask: React.FC = () => {
   const history = useHistory();
-  const { connect, isLoading, error } = useMetaMaskConnect();
+  const { connect, provider, isLoading, error } = useMetaMask();
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleConnect = async () => {
-    try {
-      await connect();
+  const checkConnection = async () => {
+    await connect();
+    if (provider) {
       history.push(ROUTER_KEYS.ROOT);
-    } catch (err) {
-      console.error('Error connecting to MetaMask:', err);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error.message);
+    }
+    if (provider) {
+      checkConnection();
+    }
+  }, [error, provider]);
 
   return (
     <StyledAuthPageBox>
       <StyledFormBox>
         {isLoading ? (
           <Loader />
-        ) : error ? (
-          <Typography>Error: {error}</Typography>
         ) : (
           <Box>
             <Typography variant="h4">Connect MetaMask</Typography>
@@ -40,10 +47,15 @@ export const ConnectMetaMask: React.FC = () => {
               .
             </Typography>
             <Box mt={2}>
-              <Button onClick={handleConnect}>Connect</Button>
+              <Button variant="contained" onClick={() => checkConnection()}>
+                Connect
+              </Button>
             </Box>
           </Box>
         )}
+        <BaseModal isOpen={errorMessage !== ''} onClose={() => setErrorMessage('')} title="Info">
+          <p>{errorMessage}</p>
+        </BaseModal>
       </StyledFormBox>
     </StyledAuthPageBox>
   );

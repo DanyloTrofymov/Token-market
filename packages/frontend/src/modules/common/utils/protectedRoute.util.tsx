@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import useMetaMaskConnect from '../../hooks/useMetaMaskConnect';
+import { useMetaMask } from '../../hooks/useMetaMaskConnect';
 import { ROUTER_KEYS } from '../consts/app-keys.const';
 
 interface ProtectedRouteProps {
@@ -8,25 +8,20 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { connect, isLoading, error } = useMetaMaskConnect();
+  const { provider, isLoading, error } = useMetaMask();
   const history = useHistory();
 
   useEffect(() => {
-    const checkConnection = async () => {
-      const isConnected = await connect();
-      if (!isConnected && !isLoading && !error) {
-        history.push(ROUTER_KEYS.CONNECT_WALLET);
-      }
-    };
-    checkConnection();
-  }, [connect, isLoading, error]);
+    if (!provider && !isLoading) {
+      history.push(ROUTER_KEYS.CONNECT_WALLET);
+    }
+  }, [provider, isLoading]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (!provider || error) {
+    history.push(ROUTER_KEYS.CONNECT_WALLET);
   }
 
   return children;

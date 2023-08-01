@@ -8,8 +8,7 @@ export const STORAGE_KEYS = {
 
 // React-query keys
 export const QUERY_KEYS = {
-  TODOS: 'todos',
-  USER: 'user'
+  METAMASK_PROVIDER: 'metaMaskProvider'
 };
 
 // Backend Routes
