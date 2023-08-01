@@ -128,4 +128,16 @@ contract Market {
     function owner() internal pure returns (address) {
         return 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
     }
+
+    function getERC20Balance() external view returns (uint256) {
+        return erc20TokenContract.balanceOf(address(msg.sender));
+    }
+
+    function getERC721Balance() external view returns (uint256[] memory) {
+        return erc721TokenContract.balanceOf(address(msg.sender));
+    }
+
+    function getERC1155Balance() external view returns (uint256) {
+        return erc1155TokenContract.getOwnedTokenCount(address(msg.sender));
+    }
 }

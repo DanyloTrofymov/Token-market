@@ -10,6 +10,7 @@ contract ERC1155Interface {
         string tokenURI;
     }
 
+    uint256[] private allTokenIds;
     mapping(address => mapping(uint256 => uint256)) private balances;
     mapping(address => mapping(uint256 => mapping(address => uint256)))
         private allowances;
@@ -57,7 +58,8 @@ contract ERC1155Interface {
         tokenCreators[tokenId] = msg.sender;
         balances[to][tokenId] = amount;
         totalSupply += amount;
-        tokenData[tokenId] = TokenData(tokenURI); // Store the token data
+        tokenData[tokenId] = TokenData(tokenURI);
+        allTokenIds.push(tokenId);
 
         emit Transfer(msg.sender, to, tokenId, amount);
         emit URI(tokenURI, tokenId);
@@ -131,5 +133,16 @@ contract ERC1155Interface {
         uint256 tokenId
     ) external view returns (uint256) {
         return allowances[owner][tokenId][spender];
+    }
+
+    function getOwnedTokenCount(address owner) public view returns (uint256) {
+        uint256 totalOwnedTokens = 0;
+
+        for (uint256 i = 0; i < allTokenIds.length; i++) {
+            uint256 tokenId = allTokenIds[i];
+            totalOwnedTokens += balanceOf(owner, tokenId);
+        }
+
+        return totalOwnedTokens;
     }
 }
