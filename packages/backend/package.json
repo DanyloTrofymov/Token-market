@@ -34,6 +34,7 @@
     "zod": "^3.21.4"
   },
   "scripts": {
+    "start": "hardhat node && hardhat run ./scripts/deploy-market.ts --network localhost",
     "deploy:market": "yarn hardhat run ./scripts/deploy-market.ts",
     "deploy:market:local": "yarn hardhat run ./scripts/deploy-market.ts --network localhost",
     "test:market": "npx hardhat test test/market.test.ts",

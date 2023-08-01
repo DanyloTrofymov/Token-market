@@ -1,0 +1,19 @@
+{
+    "workbench.colorCustomizations": {
+        "editorSuggestWidget.selectedBackground": "#6342AD",
+        "activityBar.background": "#0D1231",
+        "titleBar.activeBackground": "#200ED6",
+        "titleBar.activeForeground": "#FDFDFC"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "editor.formatOnPaste": true,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "eslint.validate": [
+        "javascript"
+    ],
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+}
