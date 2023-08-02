@@ -16,12 +16,8 @@ class Market {
   };
 
   handleCall = async (promise: Promise<any>) => {
-    try {
-      const result = await promise;
-      return result;
-    } catch (err) {
-      console.log(err);
-    }
+    const result = await promise;
+    return result;
   };
 
   buyERC20token = async (amount: number) => {

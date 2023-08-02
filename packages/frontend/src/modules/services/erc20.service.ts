@@ -10,12 +10,8 @@ class ERC20Token {
   }
 
   setAllowance = async (amount: number) => {
-    try {
-      const tx = await this.ERC20Token.approve(process.env.REACT_APP_MARKET_ADDRESS, amount);
-      await tx.wait();
-    } catch (err) {
-      console.log(err);
-    }
+    const tx = await this.ERC20Token.approve(process.env.REACT_APP_MARKET_ADDRESS, amount);
+    await tx.wait();
   };
 }
 
