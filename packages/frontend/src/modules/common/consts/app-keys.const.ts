@@ -8,7 +8,11 @@ export const STORAGE_KEYS = {
 
 // React-query keys
 export const QUERY_KEYS = {
-  METAMASK_PROVIDER: 'metaMaskProvider'
+  METAMASK_PROVIDER: 'metaMaskProvider',
+  MARKET_BALANCE: 'marketBalance',
+  USER_ERC20_BALANCE: 'userERC20Balance',
+  USER_ERC721_BALANCE: 'userERC721Balance',
+  USER_ERC1155_BALANCE: 'userERC1155Balance'
 };
 
 // Backend Routes

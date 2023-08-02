@@ -2,19 +2,21 @@ import { Contract } from 'ethers';
 import { Connection } from './connection.service';
 import ERC20Contract from '../../ABI/custom-tokens/ERC20.contract.sol/ERC20Token.json';
 
-export class ERC20Token {
+class ERC20Token {
   ERC20Token: Contract;
 
   constructor() {
     this.ERC20Token = Connection(process.env.REACT_APP_ERC20_ADDRESS || '', ERC20Contract.abi);
   }
 
-  setAllowance = async (amount: string) => {
+  setAllowance = async (amount: number) => {
     try {
-      const tx = await this.ERC20Token.approve(amount, process.env.REACT_APP_MARKET_ADDRESS);
+      const tx = await this.ERC20Token.approve(process.env.REACT_APP_MARKET_ADDRESS, amount);
       await tx.wait();
     } catch (err) {
       console.log(err);
     }
   };
 }
+
+export const ERC20TokenService = new ERC20Token();

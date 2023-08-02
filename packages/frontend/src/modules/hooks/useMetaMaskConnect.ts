@@ -25,7 +25,6 @@ export const useMetaMask = () => {
     const checkConnection = async () => {
       try {
         const hasAccount = await isMetaMaskConnected();
-        console.log('hasAccount', hasAccount);
         if (!hasAccount) {
           setIsLoading(false);
           setProvider(undefined);
@@ -49,7 +48,6 @@ export const useMetaMask = () => {
       checkConnection();
     });
 
-    // Cleanup function to remove the event listener when the component unmounts
     return () => {
       window.ethereum.removeListener('accountsChanged', () => checkConnection());
     };

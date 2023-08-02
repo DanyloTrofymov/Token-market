@@ -1,74 +1,65 @@
 import { Contract } from 'ethers';
 import { Connection } from './connection.service';
-import MarketContract from '../../ABI/market.contract.sol/Market.json';
+import MarketContract from '../../ABI/markets/market.contract.sol/Market.json';
+import { Create1155 } from '../common/types';
 
-export class Market {
+class Market {
   market: Contract;
 
   constructor() {
     this.market = Connection(process.env.REACT_APP_MARKET_ADDRESS || '', MarketContract.abi);
   }
 
-  buyERC20token = async (amount: string) => {
+  handleTransaction = async (promise: Promise<any>) => {
+    const tx = await promise;
+    await tx.wait();
+  };
+
+  handleCall = async (promise: Promise<any>) => {
     try {
-      const tx = await this.market.buyERC20token(amount);
-      await tx.wait();
+      const result = await promise;
+      return result;
     } catch (err) {
       console.log(err);
     }
   };
 
-  getMarketBalance = async () => {
-    try {
-      const balance = await this.market.getMarketBalance();
-      return balance;
-    } catch (err) {
-      console.log(err);
-    }
+  buyERC20token = async (amount: number) => {
+    const ethereumToSpend = amount * 1000000000;
+    const transactionObject = {
+      value: ethereumToSpend.toString()
+    };
+
+    await this.handleTransaction(this.market.buyERC20Tokens(transactionObject));
   };
 
   createERC721token = async (tokenURI: string) => {
-    try {
-      const tx = await this.market.createERC721token(tokenURI);
-      await tx.wait();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.handleTransaction(this.market.createERC721Token(tokenURI));
   };
 
-  createERC1155token = async (amount: string) => {
-    try {
-      const tx = await this.market.createERC1155token(amount);
-      await tx.wait();
-    } catch (err) {
-      console.log(err);
-    }
+  createERC1155token = async (data: Create1155) => {
+    await this.handleTransaction(this.market.createERC1155Token(data.tokenURI, data.amount));
   };
 
-  getERC20balance = async (tokenId: string) => {
-    try {
-      const balance = await this.market.getERC20balance(tokenId);
-      return balance;
-    } catch (err) {
-      console.log(err);
-    }
+  getERC20balance = async () => {
+    const balance = await this.handleCall(this.market.getERC20Balance());
+    return balance;
   };
 
-  getERC721balance = async (tokenId: string) => {
-    try {
-      const balance = await this.market.getERC721balance(tokenId);
-      return balance;
-    } catch (err) {
-      console.log(err);
-    }
+  getERC721balance = async () => {
+    const balance = await this.handleCall(this.market.getERC721Balance());
+    return balance;
   };
 
-  getERC1155balance = async (tokenId: string) => {
-    try {
-      const balance = await this.market.getERC1155balance(tokenId);
-      return balance;
-    } catch (err) {
-      console.log(err);
-    }
+  getERC1155balance = async () => {
+    const balance = await this.handleCall(this.market.getERC1155Balance());
+    return balance;
+  };
+
+  getMarketBalance = async () => {
+    const balance = await this.handleCall(this.market.getMarketBalance());
+    return balance;
   };
 }
+
+export const MarketService = new Market();

@@ -4,3 +4,8 @@ export interface Token {
   symbol: string;
   balance: number;
 }
+
+export interface Create1155 {
+  tokenURI: string;
+  amount: number;
+}

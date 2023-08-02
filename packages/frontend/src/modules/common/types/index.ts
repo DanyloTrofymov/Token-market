@@ -1,2 +1,3 @@
 export * from './loadingStatuses.type';
-export * from './token.types';
+export * from './token.type';
+export * from './error.type';

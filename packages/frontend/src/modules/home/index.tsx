@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { TokenContainerPage } from '../common/pages';
+import Market from '../common/pages/market/market.page';
 
-const HomePageContainer = () => <TokenContainerPage />;
+const HomePageContainer = () => <Market />;
 
 export default HomePageContainer;
