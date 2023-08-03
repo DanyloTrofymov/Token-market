@@ -69,10 +69,10 @@ const config: HardhatUserConfig = {
     localhost: {
       url: `http://127.0.0.1:8545/`,
     },
-    // mumbai: {
-    //   url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.GATEWAY_APP_ID}`,
-    //   accounts: [`0x${process.env.DEPLOYER}`],
-    // },
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.GATEWAY_APP_ID}`,
+      accounts: [`0x${process.env.DEPLOYER}`],
+    },
     // mainnet: {
     //   url: `https://mainnet.infura.io/v3/${process.env.INFURA_APP_ID}`,
     //   accounts: [`0x${process.env.OWNER_PRIVATE_KEY}`],

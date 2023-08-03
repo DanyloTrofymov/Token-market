@@ -37,6 +37,7 @@
     "start": "hardhat node",
     "deploy:market": "yarn hardhat run ./scripts/deploy-market.ts",
     "deploy:market:local": "yarn hardhat run ./scripts/deploy-market.ts --network localhost",
+    "deploy:market:goerli": "yarn hardhat run ./scripts/deploy-market.ts --network goerli",
     "test:market": "npx hardhat test test/market.test.ts",
 
 

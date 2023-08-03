@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Button, Portal } from '@mui/material';
+import { Button } from '@mui/material';
+import ReactDom from 'react-dom';
 import { ModalBody, ModalButtons, ModalHeader, ModalOverlay, Modal } from './baseModal.styled';
 
 interface ModalProps {
@@ -15,25 +16,24 @@ export const BaseModal: React.FC<ModalProps> = ({ isOpen, onClose, title, childr
     return null;
   }
 
-  return (
-    <Portal>
-      <ModalOverlay onClick={onClose}>
-        <Modal
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          <ModalHeader>
-            <h2>{title}</h2>
-            <Button onClick={onClose} variant="outlined" color="error" sx={{ ml: 'auto' }}>
-              X
-            </Button>
-          </ModalHeader>
+  return ReactDom.createPortal(
+    <ModalOverlay onClick={onClose}>
+      <Modal
+        onClick={(event) => {
+          event.stopPropagation();
+        }}
+      >
+        <ModalHeader>
+          <h2>{title}</h2>
+          <Button onClick={onClose} variant="outlined" color="error" sx={{ ml: 'auto' }}>
+            X
+          </Button>
+        </ModalHeader>
 
-          <ModalBody>{children}</ModalBody>
-          {buttons && <ModalButtons className="modal-buttons">{buttons}</ModalButtons>}
-        </Modal>
-      </ModalOverlay>
-    </Portal>
+        <ModalBody>{children}</ModalBody>
+        {buttons && <ModalButtons className="modal-buttons">{buttons}</ModalButtons>}
+      </Modal>
+    </ModalOverlay>,
+    document.getElementById('modal') as HTMLElement
   );
 };

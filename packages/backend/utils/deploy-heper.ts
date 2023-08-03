@@ -11,13 +11,15 @@ export async function deploy(
   console.log("Deploying Contract with the account:", deployer.address);
   console.log("Account Balance:", (await deployer.getBalance()).toString());
 
-  // if (!hardhatArguments.network) {
-  //   throw new Error("please pass --network");
-  // }
+  if (!hardhatArguments.network) {
+    throw new Error("please pass --network");
+  }
 
   const contractFactory = await ethers.getContractFactory(contractName);
   const contract = await contractFactory.deploy(...constructorArguments);
   await contract.deployed();
+
+  console.log(`${contractName} deployed to: ${contract.address}`);
 
   return contract;
 }

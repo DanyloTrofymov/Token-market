@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
-import { useCreateERC1155Mutation } from '../../../hooks/useMarket';
-import { BaseModal } from '../modal';
-import { parseError } from '../../utils/errorMessageParser';
-import { MutationError } from '../../types';
+import { BaseModal } from '../baseModal/baseModal.component';
+import { useCreateERC1155Mutation } from '../../../../hooks/useMarket';
+import { MutationError } from '../../../types';
+import { parseError } from '../../../utils/errorMessageParser';
 
-const ERC1155Token: React.FC = () => {
+interface ERC1155ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  setErrorMessage: (error: string) => void;
+}
+
+export const ERC1155Modal: React.FC<ERC1155ModalProps> = ({ isOpen, onClose, setErrorMessage }) => {
+  if (!isOpen) {
+    return null;
+  }
   const [amount, setAmount] = useState<number | ''>('');
   const [tokenURI, setTokenURI] = useState<string>('');
   const createERC1155Mutation = useCreateERC1155Mutation();
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (createERC1155Mutation.error) {
@@ -25,7 +33,20 @@ const ERC1155Token: React.FC = () => {
   };
 
   return (
-    <>
+    <BaseModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Buy ERC20 Token"
+      buttons={
+        <Button
+          variant="contained"
+          onClick={handleCreateERC1155Token}
+          disabled={createERC1155Mutation.isLoading}
+        >
+          {createERC1155Mutation.isLoading ? <CircularProgress size={20} /> : 'Create'}
+        </Button>
+      }
+    >
       <TextField
         type="number"
         label="Amount"
@@ -33,18 +54,6 @@ const ERC1155Token: React.FC = () => {
         onChange={(e) => setAmount(Number(e.target.value))}
       />
       <TextField label="Token URI" value={tokenURI} onChange={(e) => setTokenURI(e.target.value)} />
-      <Button
-        variant="contained"
-        onClick={handleCreateERC1155Token}
-        disabled={createERC1155Mutation.isLoading}
-      >
-        {createERC1155Mutation.isLoading ? <CircularProgress size={20} /> : 'Create'}
-      </Button>
-      <BaseModal isOpen={errorMessage !== ''} onClose={() => setErrorMessage('')} title="Info">
-        <p>{errorMessage}</p>
-      </BaseModal>
-    </>
+    </BaseModal>
   );
 };
-
-export default ERC1155Token;
