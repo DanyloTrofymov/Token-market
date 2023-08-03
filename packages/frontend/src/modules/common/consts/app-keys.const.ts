@@ -12,19 +12,13 @@ export const QUERY_KEYS = {
   MARKET_BALANCE: 'marketBalance',
   USER_ERC20_BALANCE: 'userERC20Balance',
   USER_ERC721_BALANCE: 'userERC721Balance',
-  USER_ERC1155_BALANCE: 'userERC1155Balance'
+  USER_ERC1155_BALANCE: 'userERC1155Balance',
+  TOKENS: 'tokens'
 };
 
 // Backend Routes
 export const BACKEND_KEYS = {
-  TODOS: 'todos',
-  TODOS_COUNT: 'todos/count',
-  LOGIN: 'user/login',
-  SIGNUP: 'user/signup',
-  FORGOT_PASSWORD: 'user/forgot-password',
-  CONFIRM_EMAIL: 'user/confirm',
-  CHANGE_PASSWORD: 'user/change-password',
-  USER: 'user'
+  MORALIS_GET_OWNERS: '/moralis/get_owners'
 };
 
 export const ROUTER_KEYS = {

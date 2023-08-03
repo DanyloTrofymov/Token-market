@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
-import { BaseModal, ERC1155Modal, ERC20Modal, ERC721Modal, SetAllowanceModal } from '../../modal';
+import {
+  BaseModal,
+  ERC1155Modal,
+  ERC20Modal,
+  ERC721Modal,
+  SetAllowanceModal,
+  TokenDataModal
+} from '../../modal';
 
 export const ActionButtons = () => {
   const [isERC20Open, setIsERC20Open] = useState(false);
   const [isERC721Open, setIsERC721Open] = useState(false);
   const [isERC1155Open, setIsERC1155Open] = useState(false);
   const [isSetAllowanceOpen, setIsSetAllowanceOpen] = useState(false);
+  const [isTokenDataOpen, setIsTokenDataOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   return (
@@ -43,6 +51,14 @@ export const ActionButtons = () => {
       >
         Set Allowance
       </Button>
+      <Button
+        variant="contained"
+        color="info"
+        onClick={() => setIsTokenDataOpen(true)}
+        sx={{ mr: '1rem', mb: '1rem' }}
+      >
+        Get data
+      </Button>
       <ERC20Modal
         isOpen={isERC20Open}
         onClose={() => setIsERC20Open(false)}
@@ -59,10 +75,11 @@ export const ActionButtons = () => {
         setErrorMessage={setErrorMessage}
       />
       <SetAllowanceModal
-        isOpen={isSetAllowanceOpen}
-        onClose={() => setIsSetAllowanceOpen(false)}
+        isOpen={isTokenDataOpen}
+        onClose={() => setIsTokenDataOpen(false)}
         setErrorMessage={setErrorMessage}
       />
+      <TokenDataModal isOpen={isSetAllowanceOpen} onClose={() => setIsSetAllowanceOpen(false)} />
       <BaseModal isOpen={errorMessage !== ''} onClose={() => setErrorMessage('')} title="Error">
         <p>{errorMessage}</p>
       </BaseModal>

@@ -3,6 +3,7 @@ import { MarketService } from '../services/market.service';
 import { ERC20TokenService } from '../services/erc20.service';
 import { QUERY_KEYS } from '../common/consts/app-keys.const';
 import { Create1155 } from '../common/types';
+import { MoralisService } from '../services/http/moralis.service';
 
 export function useBuyERC20Mutation() {
   const queryClient = useQueryClient();
@@ -64,4 +65,8 @@ export function useSetAllowanceMutation() {
       queryClient.invalidateQueries([QUERY_KEYS.USER_ERC20_BALANCE]);
     }
   });
+}
+
+export function useGetOwnersQuery() {
+  return useQuery(QUERY_KEYS.TOKENS, () => MoralisService.getOwners());
 }
